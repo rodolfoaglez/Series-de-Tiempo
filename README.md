@@ -20,7 +20,7 @@ hist(CLASE2, main="Grafica 1. Distribucion de la
      ylab="Poblacion (miles)",xlim=c(1,4),ylim=c(0,200000),
     border=T,pch=18,col="lightsalmon1")
 
-#GRAFICOS DE PIE
+###GRAFICOS DE PIE
 
 sd1<-subset(sociodemo,CLASE2v=1,select=c(EDA,SEX,HRSOCUP,CLASE2,CLASE1,CLASE3,EDA5C,IMSSISSSTE))
 frec<-table(sd1$IMSSISSSTE)
