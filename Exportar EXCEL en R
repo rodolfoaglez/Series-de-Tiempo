@@ -1,0 +1,50 @@
+library(foreign)
+sociodemo<-read.dbf("C:\\Users\\Rodolfo\\Downloads\\SDEMT215.dbf")
+View(sociodemo)
+
+#Tabla con solo 2 entidades federativas
+sociodemo$ENT1<-as.numeric(as.character(sociodemo$ENT))
+ent<-subset(sociodemo,((ENT1==07)|(ENT1==08)))
+View(ent)
+
+#Tabla 1. Sexo de la poblacion
+sociodemo$SEX1<-as.numeric(as.character(sociodemo$SEX))
+genero<-subset(sociodemo,(((SEX1==1|(SEX1==2))&((ENT1==07)|(ENT1==08)))))
+View(genero)
+names(genero)[1]<-paste("Genero")
+tabla1<-table(genero$SEX1)
+View(tabla1)
+
+#Tabla 2. Poblacion ocupada, no ocupada, etc
+sociodemo$CLASE2.1<-as.numeric(as.character(sociodemo$CLASE2))
+poblacion<-subset(sociodemo,(((CLASE2.1==1)|(CLASE2.1==2)|(CLASE2.1==3)|(CLASE2.1==4))&((ENT1==07)|(ENT1==08))))
+View(poblacion)
+names(poblacion)[1]<-paste("Poblacion")
+tabla2<-table(poblacion$CLASE2.1)
+View(tabla2)
+
+
+#Tabla 3. Poblacion Economicamente y No Economicamente Activa
+sociodemo$CLASE1.1<-as.numeric(as.character(sociodemo$CLASE1))
+econom<-subset(sociodemo,(((CLASE1.1==1)|(CLASE1.1==2))&((ENT1==07)|(ENT1==08))))
+names(econom)[1]<-paste("P. Economica y No")
+tabla3<-table(econom$CLASE1.1)
+View(tabla3)
+
+
+
+#libreria para usar excel
+install.packages("XLConnect")
+library(XLConnect)
+
+libro<-loadWorkbook("C:\\Users\\Rodolfo\\Desktop\\practicaseries.xls", create=TRUE)
+createSheet(libro,name="Sexo")
+writeWorksheet(libro,tabla1,"Sexo",starRow=1,starCol=2,header=TRUE)
+
+createSheet(libro,name="Ocupacion")
+writeWorksheet(libro,tabla2,"Ocupacion",starRow=1,starCol=2,header=TRUE)
+
+createSheet(libro,name="PE Activa y No Activa")
+writeWorksheet(libro,tabla3,"PE Activa y No Activa",starRow=1,starCol=2,header=TRUE)
+
+saveWorkbook(libro)
