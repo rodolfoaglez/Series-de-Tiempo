@@ -1,0 +1,52 @@
+######################RECODIFICAR############################333
+#0.3  Limpiar el entorno de trabajo
+rm(list = ls())
+
+
+#0.5  Cargar las Bases de datos
+require(foreign)
+BASE<-data.frame(read.dbf("C:\\Users\\SALA-C3\\Desktop\\SDEMT215.dbf"))
+SDEMT215<-data.frame(BASE)
+
+
+
+
+#4.1  Recodificion de variables numericas (rangos)
+
+#Metodo 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=0 & as.numeric(SDEMT215$CLASE2)<=2]<-1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=3 & as.numeric(SDEMT215$CLASE2)<=4]<-2
+ls(SDEMT215)
+
+#Metodo 2
+attach(SDEMT215)
+SDEMT215$CLASE2.2<-ifelse(as.numeric(CLASE2)>=1 & as.numeric(CLASE2)<=2,1,
+                          ifelse(as.numeric(CLASE2)>=3 & as.numeric(CLASE2)<=3,2,3))
+detach(SDEMT215)
+
+require(questionr)
+wtd.table(SDEMT215$CLASE2.1)
+wtd.table(SDEMT215$CLASE2.2)
+
+##EJERCICIO TRANQUI DE VIERNES
+
+#Metodo1
+SDEMT215$EDAD1[as.numeric(as.character(SDEMT215$EDA))>=0 & as.numeric(as.character(SDEMT215$EDA))<=14]<-1
+SDEMT215$EDAD1[as.numeric(as.character(SDEMT215$EDA))>=15 & as.numeric(as.character(SDEMT215$EDA))<=29]<-2
+SDEMT215$EDAD1[as.numeric(as.character(SDEMT215$EDA))>=30 & as.numeric(as.character(SDEMT215$EDA))<=59]<-3
+SDEMT215$EDAD1[as.numeric(as.character(SDEMT215$EDA))>=60 & as.numeric(as.character(SDEMT215$EDA))< 98]<-4
+SDEMT215$EDAD1[as.numeric(as.character(SDEMT215$EDA))>=98 & as.numeric(as.character(SDEMT215$EDA))<=99]<-5
+
+SDEMT215$EDAD1<-ordered(SDEMT215$EDAD1,levels=c(1,2,3,4,5),labels=c("Niñ@s","Jovenes","Adultos","Adultos Mayores","No Especificado"))
+
+#Metodo2
+attach(SDEMT215)
+SDEMT215$EDAD2<-ifelse(as.numeric(as.character(EDA))>=0 & as.numeric(as.character(EDA))<=14,1,
+                       ifelse(as.numeric(as.character(EDA))>=15 & as.numeric(as.character(EDA))<=29,2,
+                              ifelse(as.numeric(as.character(EDA))>=30 & as.numeric(as.character(EDA))<=59,3,
+                                     ifelse(as.numeric(as.character(EDA))>=60 & as.numeric(as.character(EDA))<=97,4,5))))
+
+SDEMT215$EDAD2<-ordered(SDEMT215$EDAD2,levels=c(1,2,3,4,5),labels=c("Niñ@s","Jovenes","Adultos","Adultos Mayores","No Especificado"))
+require(questionr)
+wtd.table(SDEMT215$EDAD1)
+wtd.table(SDEMT215$EDAD2)
