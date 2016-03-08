@@ -1,0 +1,19 @@
+##RODOLFO ANGEL GONZALEZ RAMIREZ##
+
+tasa.desocupacion<-c(3.4,4.8,3.3,5.6,3.2,2.9,1.9,2.8,6.0,4.3,2.2)
+fechas<-seq(as.Date("2005-01-01"),as.Date("2007-09-01"),by="quarter")
+desocupacion<-data.frame(tasa.desocupacion) #creando data frame
+View(desocupacion)
+
+dimnames(desocupacion)<-list(fechas,"Tasa Desocupación")
+View(desocupacion)#data frame con mis datos
+
+serie<-ts(desocupacion) #convirtiendo en serie de tiempo
+View(serie)
+jpeg(file="Tasa_De_Desocupacion.jpg") #comando que crea la imagen
+layout(1:2)
+plot(serie,xlab="Trimestres",main="Tasa de Desocupación 2005-2007") #grafica de la serie
+plot(aggregate(serie)) #curva de tendencia
+dev.off() #cierra el archivo donde se guarda la imagen
+
+#la imagen guardada la podemos encontrar en la carpeta de Imagenes 
