@@ -1,0 +1,24 @@
+pob<-sample(100:120,15,replace=F)
+#la convertimos en serie de tiempo
+pobts<-ts(pob,frequency=1,start=2000)
+plot(pobts)
+plot(aggregate(pobts))
+#bajar de inegi la base de datos
+#importar csv
+ocu<-ts(read.csv(("C:\\Users\\SALA-C2\\Documents\\ocupa.csv"),header=FALSE),frequency=4, start=2005)
+ocu
+plot(ocu)
+View(ocu)
+plot(aggregate(ocu))
+#ejercicio simular la tasa de desocupacion entre 3 y 8% , 2005
+#40 datos, trimestral
+#bajar del inegi la verdadera tasa de desocupacion
+#importar en R y comparar
+desocupacion<-sample(3:8, 44, replace=T)
+desocupacion
+TD<-ts(desocupacion,frequency=4, start=2005)
+
+layout(1:2)
+plot(TD)
+plot(aggregate(TD))
+plot(cbind(ocu,TD))
