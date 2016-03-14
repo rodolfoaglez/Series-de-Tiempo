@@ -1,0 +1,42 @@
+##Rodolfo Angel Gonzalez Ramirez
+#Ivan Ramon Jardon Rodriguez
+
+#1) IMPORTAR SERIE
+
+#2) DECLARAMOS SERIE DE TIEMPO
+acciones<-ts(read.csv(("C:\\Users\\SALA-C2\\Documents\\indicesbursatil.csv"),header=T),frequency=252,start=2002)
+View(acciones)
+acciones
+kimber<-ts(acciones[,1],frequency=252, start=c(2002,2))
+bimbo<-ts(acciones[,2],frequency=252, start=c(2002,2))
+cemex<-ts(acciones[,3],frequency=252, start=c(2002,2))
+inbursa<-ts(acciones[,4],frequency=252, start=c(2002,2))
+alfa<-ts(acciones[,5],frequency=252, start=c(2002,2))
+ica<-ts(acciones[,6],frequency=252, start=c(2002,2))
+elektra<-ts(acciones[,7],frequency=252, start=c(2002,2))
+
+###)GRAFICAR LAS VARIABLES SEPARADAS
+plot(kimber,xlab="Años",ylab="Rendimiento de la Accion kimber",color="blue")
+plot(bimbo,xlab="Años",ylab="Rendimiento de la Accion bimbo",color="blue")
+plot(cemex,xlab="Años",ylab="Rendimiento de la Accion cemex",color="blue")
+plot(inbursa,xlab="Años",ylab="Rendimiento de la Accion inbursa",color="blue")
+plot(alfa,xlab="Años",ylab="Rendimiento de la Accion alfa",color="blue")
+plot(ica,xlab="Años",ylab="Rendimiento de la Accion ica",color="blue")
+plot(elektra,xlab="Años",ylab="Rendimiento de la Accion elektra",color="blue")
+
+##4)GRAFICARLAS JUNTAS COMO SERIE DE TIEMPO
+layout(1:3)
+X11()
+plot(kimber,xlab="Años",ylab="Rendimiento de la Accion kimber",color="blue")
+plot(bimbo,xlab="Años",ylab="Rendimiento de la Accion bimbo",color="blue")
+plot(cemex,xlab="Años",ylab="Rendimiento de la Accion cemex",color="blue")
+plot(inbursa,xlab="Años",ylab="Rendimiento de la Accion inbursa",color="blue")
+plot(alfa,xlab="Años",ylab="Rendimiento de la Accion alfa",color="blue")
+plot(ica,xlab="Años",ylab="Rendimiento de la Accion ica",color="blue")
+plot(elektra,xlab="Años",ylab="Rendimiento de la Accion elektra",color="blue")
+
+##5)CREAR SERIE MULTIPLE
+
+seriemultiple<-ts.intersect(kimber,bimbo,cemex,inbursa,alfa,ica,elektra)
+seriemultiple
+plot(seriemultiple,xlab="Años",ylab="Rendimiento de la Accion",color="salmon")
