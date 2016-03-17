@@ -1,0 +1,70 @@
+##RODOLFO ANGEL GONZALEZ RAMIREZ###
+
+
+#### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+### dato 1 de n?mero de profesionista (mill)rango de 5 a 8
+### dato 2 crec pib rango de 0 a 5
+### dato 3 porcentaje de ocupados rango de 40 a 60
+### dato 4 porcentaje de desocupados rango de 3 a 8
+prof<-sample(5:8,60,replace=T)
+pib<-sample(0:5,60,replace=T)
+ocu<-sample(40:60,60,replace=T)
+desocu<-sample(3:8,60,replace=T)
+
+#### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+datos<-data.frame(prof,pib,ocu,desocu)
+datos
+
+#### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+datos[c(1:12,49:60),seq(1:4)]
+
+#### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+st.prof<-ts(datos[,1],start=2010,frequency = 12)
+st.pib<-ts(datos[,2],start=2010,frequency = 12)
+st.ocu<-ts(datos[,3],start=2010,frequency = 12)
+st.desocu<-ts(datos[,4],start=2010,frequency = 12)
+
+#### 4) graficar los profesionistas y ocupados en la misma imagen
+X11()
+layout(1:2)
+plot(st.prof,main="Profesionistas")
+plot(st.ocu,main="Ocupados")
+
+#### 5) graficar pib y desocupados en la misma imagen
+X11()
+layout(1:2)
+plot(st.pib,main="Producto Interno Bruto (PIB)")
+plot(st.desocu,main="Desocupados")
+
+#### 6) graficar todas juntas
+X11()
+layout(1:4)
+plot(st.prof,main="Profesionistas")
+plot(st.ocu,main="Ocupados")
+plot(st.pib,main="Producto Interno Bruto (PIB)")
+plot(st.desocu,main="Desocupados")
+
+### 7) creaR serie de tiempo multiple!!!!8
+serietmultiple<-ts.intersect(st.prof,st.pib,st.ocu,st.desocu)
+serietmultiple
+
+#### 8 ) graficar serie de tiempo multiple 
+plot(serietmultiple,xlab="Año",main="Serie de Tiempo",col="green")
+
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año...
+serie2014<-window(serietmultiple,start=2014)
+serie2014
+plot(serie2014,xlab="2014",main="Datos 2014",col="salmon")
+
+#### 10 ) analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+plot(aggregate(serietmultiple))
+#Analizando la curva de tendencia de la serie con las 4 variables juntas, podemos ver que 
+#(1)la tasa de desocupación ha ido en decremento desde el 2012, esto debido a muchos fenomenos
+#económicos que ha tenido el país; lo cual es algo bueno.
+#(2)igualmente, la tasa de ocupacion ha ido en aumento a partir de 2013
+#(3)El PIB es el que ha tenido un mayor crecimiento a partir del 2012, puedo ser debido a el cambio 
+#de administración en el gobierno federal y a las constantes reformas a nivel nacional e internacional
+#en materia económica y de desarrollo que ha tenido nuestro país.
+#(4)con respecto al numero de profesionistas, creo que hay un contraste con la informacion que nos
+#proporciona, ya que ha ido en descenso a pesar de que la tasa de desocupacion ha mostrado buenos
+#niveles, así como la d
