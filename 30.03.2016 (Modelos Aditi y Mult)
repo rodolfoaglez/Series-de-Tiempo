@@ -1,0 +1,77 @@
+ICA1<-ts(read.csv(("C:\\Users\\SALA-C2\\Desktop\\ica_acciones.csv"),header=T),frequency=252,start=2000)
+ICA<-ts(read.csv(("C:\\Users\\SALA-C2\\Downloads\\ica acciones.csv"),header=T),frequency=252,start=2000)
+View(ICA1) 
+icaadit<-decompose(ICA1)
+plot(icaadit) #modelo aditivo
+
+############
+#como vimos la clase pasada hay dos modelos que podemos descomponer la ST
+##1) el modelo aditivo...xt=mt+st+zt
+##2) el modelo multiplicativo...xt=mt.st+zt
+####ahora para descomponer una serie en un modelo aditivo
+
+icamult<-decompose(ICA1, type="mult") #modelo multiplicativo
+plot(icamult)
+
+#decomponiendo el modelo en tendencia, estacionalidad y aleatoriedad el M Aditivo
+names(icaadit)
+tendencia1<-icaadit$trend
+estacionalidad1<-icaadit$seasonal
+aleatoriedad1<-icaadit$random
+MAditivo<-data.frame(tendencia1,estacionalidad1,aleatoriedad1)
+View(MAditivo)
+ts.plot(cbind(tendencia1,tendencia1*estacionalidad1),lty=2:15,col=c(12,1))
+
+#decomponiendo el modelo en tendencia, estacionalidad y aleatoriedad el M Aditivo
+names(icamult)
+tendencia2<-icamult$trend
+estacionalidad2<-icamult$seasonal
+aleatoriedad2<-icamult$random
+MMult<-data.frame(tendencia2,estacionalidad2,aleatoriedad2)
+View(MMult)
+
+
+##EJERCICIO EN CLASE
+amovil<-ts(read.csv(("C:\\Users\\SALA-C2\\Desktop\\amovil1.csv"),header=T),frequency=252,start=2000)
+View(amovil)
+#modelo aditivo
+AMaditivo<-decompose(amovil)
+plot(AMaditivo)
+
+#modelo multiplicativo
+AMmulti<-decompose(amovil, type="mult")
+plot(AMmulti)
+
+#decomponiendo el modelo en tendencia, estacionalidad y aleatoriedad el M Aditivo
+names(AMaditivo)
+tendencia1<-AMaditivo$trend
+estacionalidad1<-AMaditivo$seasonal
+aleatoriedad1<-AMaditivo$random
+AMditivo<-data.frame(tendencia1,estacionalidad1,aleatoriedad1)
+View(AMditivo)
+ts.plot(cbind(tendencia1,tendencia1*estacionalidad1),lty=2:15,col=c(12,1))
+
+#decomponiendo el modelo en tendencia, estacionalidad y aleatoriedad el M Aditivo
+names(AMmulti)
+tendencia2<-AMmulti$trend
+estacionalidad2<-AMmulti$seasonal
+aleatoriedad2<-AMmulti$random
+AMult<-data.frame(tendencia2,estacionalidad2,aleatoriedad2)
+View(AMult)
+
+
+#EXPORTAR A EXCEL
+install.packages("XLConnect")
+library(XLConnect)
+
+libro<-loadWorkbook("C:\\Users\\SALA-C2\\Desktop\\practicaseries.xls", create=TRUE)
+createSheet(libro,name="ADITIVO")
+createName(libro,name="ADITIVO", formula="ADITIVO!$A$1")
+writeNamedRegion(libro,AMditivo,name = "ADITIVO")
+
+
+createSheet(libro,name="MULTIPLICATIVO")
+createName(libro,name="MULTIPLICATIVO", formula="MULTIPLICATIVO!$A$1")
+writeNamedRegion(libro,AMult,name = "MULTIPLICATIVO")
+
+saveWorkbook(libro)
