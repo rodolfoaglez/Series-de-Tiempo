@@ -1,0 +1,60 @@
+#### una vez que logramos descomponer la st en diversos los elementos de estacionalidad 
+#y tendencia hay que desestacionalizar la st y eliminar la tendencia ######
+
+#### EXISTE TENDENCIA CUANDO existe un patron en los datos  a largo plaza ya sea 
+### que aumenta o disminuye los datos 
+##### la estacionalidad existe cuando 
+### la ST cuando es influenciado por factores estacionales (por ejemplo, la
+###trimestre del año , el mes , o el día de la semana).
+### existen componente de ciclicoso en los datos cuando 
+##se detectan  incrementos y caídas que no son de tiempo determinado
+##(duración por lo general de al menos 2 años ).
+
+###3 DE estos 3 elemenos normalmente existen confusiones para detectarlos entre 
+### la estacionalidad y el componente ciclico
+###Principales diferencias entre estos dos componentes 
+# 1( patrón estacional longitud constante ; patrón cíclico Longitud variable
+# 2(  duración media del componente ciclico  más largo que la longitud del patrón estacional)
+#3) magnitud de ciclico más variable que magnitud del patrón estacional
+#4)  El momento de picos y caidas es predecible con los datos estacionales 
+#, pero impredecible a largo plazo con datos cíclicos .
+
+install.packages("fpp")
+require(fpp)
+plot(window(elec,start=1980),ylab="GWh",xlab="Year",main="Australian electricity production")
+##ESTA, TENDENCIA ESTACIONALIDAD
+plot(bricksq,ylab="million units",xlab="Year",main="Australian clay brick production")
+###ESTA Y CICLO NO MUCHO TENDENCIOA
+plot(hsales,main="Sales of new one-family houses, USA",ylab="Total sales",xlab="Year")
+#NO ESTA NI TENDENCIA, POSIBLE CICLO
+###############3EJEMPLOS GRAFICAS DETECTAR TENDENCIA, ESTACIONALIDAD Y CICLO
+
+ICA<-read.csv("C:\\Users\\SALA-C2\\Desktop\\ICA.csv")
+View(ICA)
+CEMEX<-read.csv("C:\\Users\\SALA-C2\\Desktop\\CEMEX.csv")
+View(CEMEX)
+INBURSA<-read.csv("C:\\Users\\SALA-C2\\Desktop\\INBU.csv")
+View(INBURSA)
+
+layout(3:1)
+ICATS<-ts(ICA[,5],start=2000,frequency=12)
+plot(ICATS,main="Acciones de ICA",ylab="valor de cierre",col="blue")
+
+CEMEXTS<-ts(CEMEX[,5],start=2000,frequency=12)
+plot(CEMEXTS,main="Acciones de CEMEX",ylab="valor de cierre",col="red")
+
+INBUTS<-ts(INBURSA[,5],start=2000,frequency=12)
+plot(INBUTS,main="Acciones de INBURSA",ylab="valor de cierre",col="green")
+
+
+#DESDE EL PUNTO DE VISTA COMO INVERSIONISTA, YO INVERTIRIA MI DINERO EN LAS ACCIONES DE
+#CEMEX, YA QUE, PODEMOS DARNOS CUENTA QUE A LO LARGO DE LOS ULTIMOS AÑOS, 2009 A LA ACTUALIDAD
+#LOS PRECIOS DE LA ACCION SE HAN MANTENIDO CONSTANTES Y CON UNA MÍNIMA VARIACIÓN,
+#REGISTRANDO MOVIMIENTOS LEVES DEL PRECIO A LO LARGO DEL TIEMPO.
+#POR LO TANTO, YA QUER NO TIENE MUCHA VARIACIÓN, EL RIESGO DE PÉRDIDA ES MENOR.
+
+#LA ACCION DE INBURSA PRESENTA UNA TENDENCIA CRECIENTE EN EL PERIODO DE 2002-2011.
+#LA ACCION DE CEMEX HA PRESENTADO UNA TENDENCIA CONSTANTE DESDE EL 2009 A LA ACTUALIDAD.
+#LA ACCION DE ICA PRESENTO UNA TENDENCIA CONSTANTE DESD EL AÑO 2000 HASTA EL 2006.
+
+#TAMBIEN EN LA ACCION DE CEMEX TIENE CICLOS EN EL PERIODO 2005-2009
