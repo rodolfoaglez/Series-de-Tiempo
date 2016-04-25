@@ -1,0 +1,43 @@
+library(foreign)
+base<-read.csv("C:\\Users\\SALA-C2.RTIC-C2-HP\\Downloads\\base.csv")
+View(base)
+install.packages("fpp")
+library(fpp)
+part<-ts(base[,1],start=2005,frequency=4)
+plot(part)
+xx<-Acf(part)
+xx
+
+#meanf(part,h)
+partpro<-meanf(part,4)
+plot(partpro)
+#part es la ST
+##el numero de datos a proyectar, en este caso elegi 4
+
+##########
+partnai<-snaive(part,4)
+partnai
+plot(partnai)
+help(snaive)
+
+###metodo de la deriva
+
+partder<-rwf(part,4,drift=T)
+partder
+plot(partder)
+
+#rwf(st,h,drift=T)
+
+
+####EJEMPLOS
+part1<-window(part,start=2005, end=2010)
+partj1<-meanf(part1,h=4)
+partj2<-naive(part1,h=4)
+partj3<-snaive(part1,h=4)
+
+plot(partj1,plot.conf=F, main="Proyeccion tasas de desempleo trimestre")
+lines(partj1$mean,col=2)
+lines(partj2$mean,col=3)
+lines(partj3$mean,col=4)
+legend("topleft",lty=1,col=c(2,3,4),legend=c("metodo media","metodo ingenuo","metodo estacional"))
+
