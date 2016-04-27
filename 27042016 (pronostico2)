@@ -1,0 +1,11 @@
+##############################################
+pib<-read.csv("C:\\Users\\SALA-C2.RTIC-C2-HP\\Desktop\\pib.csv",header=T)
+View(pib)
+pibts<-ts(pib,start=1993,frequency=4)
+
+View(pibts)
+plot(pibts)
+Acf(pibts)
+
+pibtsder<-rwf(pibts,4,drift=T)
+plot(pibtsder)
