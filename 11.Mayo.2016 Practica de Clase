@@ -1,0 +1,83 @@
+require (forecast)
+require (fpp)
+
+loan<-read.csv("C:\\Users\\Rodolfo\\Downloads\\base.csv")
+base1<-ts(loan[,1],start=2005,frequency=4)
+base2<-ts(loan[,2],start=2005,frequency=4)
+View(base1)
+
+####SERIE 1
+mod1<-ses(base1,alpha=0.1,initial="simple",h=4)
+mod2<-ses(base1,alpha=0.6,initial="simple",h=4)
+mod3<-ses(base1,alpha=.9,initial="simple",h=4)
+x11()
+plot(mod1, plot.conf=FALSE, ylab="Desempleo",
+     xlab="Year", main="", fcol="white", type="o")
+
+lines(fitted(mod1), col="blue", type="o")
+lines(fitted(mod2), col="red", type="o")
+lines(fitted(mod3), col="green", type="o")
+lines(mod1$mean, col="blue", type="o")
+lines(mod2$mean, col="red", type="o")
+lines(mod3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.1), expression(alpha == 0.6),
+         expression(alpha == 0.9)),pch=1)
+
+####SERIE 2
+mod11<-ses(base2,alpha=0.0001,initial="simple",h=4)
+mod22<-ses(base2,alpha=0.5,initial="simple",h=4)
+mod33<-ses(base2,alpha=.987,initial="simple",h=4)
+x11()
+plot(mod11, plot.conf=FALSE, ylab="Desecupacion",
+     xlab="Year", main="", fcol="white", type="o")
+
+lines(fitted(mod11), col="blue", type="o")
+lines(fitted(mod22), col="red", type="o")
+lines(fitted(mod33), col="green", type="o")
+lines(mod11$mean, col="blue", type="o")
+lines(mod22$mean, col="red", type="o")
+lines(mod33$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.0001), expression(alpha == 0.5),
+         expression(alpha == 0.987)),pch=1)
+
+#########CALCULOS BASE 1
+x1<-meanf(base1, 4)
+x2<-naive(base1, 4)##ingenuo
+x3<-snaive(base1, 4)###sani
+x4<-rwf(base1, 4, drift = T)##deriva
+plot(x1, plot.conf= F, main="Proyección Tasa de Desempleo")
+lines(x2$mean, col=2)
+lines(x3$mean, col=3)
+lines(x4$mean, col=4)
+evalmed01<-accuracy(x1)
+evaling02<-accuracy(x2)
+evalsnai03<-accuracy(x3)
+evalder04<-accuracy(x4)
+help(accuracy)
+evalmed01
+evaling02
+evalsnai03
+evalder04
+
+
+#######BASE 2
+y1<-meanf(base2, 4)
+y2<-naive(base2, 4)##ingenuo
+y3<-snaive(base2, 4)###sani
+y4<-rwf(base2, 4, drift = T)##deriva
+plot(y1, plot.conf= F, main="Proyeccion Tasa de Desocupacion")
+lines(y2$mean, col=2)
+lines(y3$mean, col=3)
+lines(y4$mean, col=4)
+evalmed11<-accuracy(y1)
+evaling22<-accuracy(y2)
+evalsnai33<-accuracy(y3)
+evalder44<-accuracy(y4)
+help(accuracy)
+evalmed11
+evaling22
+evalsnai33
+evalder44
+
