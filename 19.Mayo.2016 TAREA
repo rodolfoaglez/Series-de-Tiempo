@@ -1,0 +1,65 @@
+#BASES DE DATOS: PIB A PRECIOS INTERNACIONALES DEL BRASIL Y NIVEL EDUCATIVO 
+#A NIVEL PRIMARIA EN MEXICO
+#Rodolfo Angel González Ramírez
+#Alejandro Arevalo Perez
+#Ana Elvia Martinez Gomez
+
+require (foreign)
+brasilpib<-read.csv("C:\\Users\\Rodolfo\\Downloads\\pib brasil .csv")
+mexedu<-read.csv("C:\\Users\\Rodolfo\\Downloads\\mexico educacion.csv")
+bpibts<- ts(brasilpib, start = 1990)
+mexeduts<-ts(mexedu, start = 1990)
+
+##AJUSTE 1 
+require(fpp)
+aju1bra<-holt(bpibts,alpha=0.3,beta=0.1,initial="simple",h=4)
+aju1mex<-holt(mexeduts,alpha=0.3,beta=0.1,initial="simple",h=4)
+
+##AJUSTE 2
+aju2bra<-holt(bpibts,alpha=0.3,beta=0.1,initial="simple",h=4,exponential=T)
+aju2mex<-holt(mexeduts,alpha=0.3,beta=0.1,initial="simple",h=4,exponential=T)
+
+
+#AJUSTE 3
+aju3bra<-holt(bpibts,alpha=0.3,beta=0.1, gamma=0.5,damped=T)
+aju3mex<-holt(mexeduts,alpha=0.3,beta=0.1,gamma=0.5,damped=T)
+
+#AJUSTE 4
+aju4bra<-holt(bpibts,alpha=0.3,beta=0.1, gamma=0.5,damped=T, exponential=T)
+aju4mex<-holt(mexeduts,alpha=0.3,beta=0.1,gamma=0.5,damped=T,exponential=T)
+###
+
+##GRAFICA BRASIL PIB, AJUSTES Y ACCURACY
+x11()
+plot(bpibts, plot.conf=FALSE, ylab="PIB a precios internacionales", xlab="Año", main="", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(aju1bra), col="blue", type="o")
+lines(fitted(aju2bra), col="red", type="o")
+lines(fitted(aju3bra), col="green", type="o")
+lines(fitted(aju4bra), col="pink", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","red","green", "pink"), c("pibbra", expression(alpha==.3),
+                                                            expression (alpha==.3),expression (alpha==.3), expression(alpha==.3)), pch=1)
+eval1<-accuracy (aju1bra)
+eval2<-accuracy (aju2bra)
+eval3<-accuracy (aju3bra)
+eval4<-accuracy (aju4bra)
+dataB<-data.frame(eval1,eval2,eval3,eval4)
+dataB
+
+
+##GRAFICA MEXICO PIB, AJUSTES Y ACCURACY
+x11()
+plot(mexeduts, plot.conf=FALSE, ylab="Nivel Educativo en México", xlab="Año", main="", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(aju1mex), col="blue", type="o")
+lines(fitted(aju2mex), col="red", type="o")
+lines(fitted(aju3mex), col="green", type="o")
+lines(fitted(aju4mex), col="pink", type="o")
+legend("topright", lty = 1, col=c(1,"blue","red","green", "pink"), c("pibbra", expression(alpha==.3),
+                                                                    expression (alpha==.3),expression (alpha==.3), expression(alpha==.3)), pch=1)
+eval11<-accuracy (aju1mex)
+eval22<-accuracy (aju2mex)
+eval33<-accuracy (aju3mex)
+eval44<-accuracy (aju4mex)
+dataM<-data.frame(eval11,eval22,eval33,eval44)
+dataM
